@@ -19,10 +19,13 @@ namespace MyCorpIdentityServer.Config
                 Flow = Flows.ClientCredentials,
                 ClientSecrets = new List<Secret>
                 {
-                    new Secret(Constants.MyCorpMvcAppSecret)
+                    new Secret(Constants.MyCorpMvcAppSecret.Sha256())//sha256
                 },
-                AllowedScopes = new List<string> { "testscope" }
+                AllowAccessToAllScopes = true
+                //AllowedScopes = new List<string> { "testscope" }
             };
+
+            clients.Add(clientMvc);
 
             return clients;
         }

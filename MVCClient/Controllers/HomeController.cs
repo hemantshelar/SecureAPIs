@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCClient.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,13 @@ namespace MVCClient.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult TestApi()
+        {
+            ApiHelper helper = new ApiHelper();
+            helper.Test();
+            return View("Index");
         }
     }
 }

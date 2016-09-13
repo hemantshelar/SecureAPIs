@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using MVCClient.Helper;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(MVCClient.Startup))]
@@ -9,6 +10,8 @@ namespace MVCClient
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            ApiHelper helper = new ApiHelper();
+            helper.Test();
         }
     }
 }
