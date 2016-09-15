@@ -11,7 +11,7 @@ namespace MVCClient
         {
             ConfigureAuth(app);
             ApiHelper helper = new ApiHelper();
-            helper.Test();
+            helper.TestWithClientCredentials();
         }
     }
 }

@@ -31,7 +31,12 @@ namespace MVCClient.Controllers
         public ActionResult TestApi()
         {
             ApiHelper helper = new ApiHelper();
-            helper.Test();
+            helper.TestWithClientCredentials();
+            return View("Index");
+        }
+
+        public ActionResult Callback()
+        {
             return View("Index");
         }
     }

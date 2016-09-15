@@ -55,7 +55,7 @@ namespace MVCClient.Helper
             return client;
         }
 
-        public void Test()
+        public void TestWithClientCredentials()
         {
             //TokenClient tokenClient = new TokenClient("http://mycorpidentityserverapp.azurewebsites.net/identity/connect/token",
             //    Constants.MyCorpMvcAppId,Constants.MyCorpMvcAppSecret);
