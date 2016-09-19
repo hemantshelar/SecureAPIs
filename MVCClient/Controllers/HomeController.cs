@@ -1,4 +1,6 @@
-﻿using MVCClient.Helper;
+﻿using IdentityModel.Client;
+using MVCClient.Helper;
+using MyCorp.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +37,24 @@ namespace MVCClient.Controllers
             return View("Index");
         }
 
+        public ActionResult TestAPIAuthorizationCode()
+        {
+            ApiHelper helper = new ApiHelper();
+            helper.TestWithAuthorizationCode();
+            return View();
+        }
+
         public ActionResult Callback()
         {
-            return View("Index");
+            string code = Request.QueryString["code"] as string;
+            string code1 = Request.QueryString["code1"] as string;
+            var state = Request.QueryString["state"] as string;
+
+            TokenClient token = new TokenClient("http://mycorpidentityserverapp.azurewebsites.net/identity/connect/token",
+                "mymvcclient_authrorization_code", Constants.MyCorpMvcAppSecret);
+            var result = token.RequestAuthorizationCodeAsync(code, "http://mvcclientdemo.azurewebsites.net/home/callback").Result;
+
+            return Redirect(state);
         }
     }
 }

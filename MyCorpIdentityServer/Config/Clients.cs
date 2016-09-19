@@ -24,8 +24,31 @@ namespace MyCorpIdentityServer.Config
                 AllowAccessToAllScopes = true
                 //AllowedScopes = new List<string> { "testscope" }
             };
-
             clients.Add(clientMvc);
+
+
+
+            Client clientMvcAuthorizationCode = new Client
+            {
+                ClientId = "mymvcclient_authrorization_code",
+                ClientName = "MVC (Authorization Code Flow)",
+                Flow = Flows.AuthorizationCode,
+                AllowAccessToAllScopes = true,
+                RedirectUris = new List<string>
+                {
+                    "http://mvcclientdemo.azurewebsites.net/home/callback"
+                },
+                ClientSecrets = new List<Secret>
+                {
+                    new Secret(Constants.MyCorpMvcAppSecret.Sha256())
+                },
+                AllowedScopes = new List<string>
+                {
+                    "testscope"
+                }
+            };
+
+            clients.Add(clientMvcAuthorizationCode);
 
             return clients;
         }

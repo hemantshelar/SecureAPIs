@@ -35,7 +35,7 @@ namespace MVCClient.Helper
 
         public const string API_BASE_URI =    @"http://securedwebapidemo.azurewebsites.net";
 
-        public HttpClient GetHtttpClient()
+        public HttpClient GetHtttpClientClientCredentialFlow()
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(API_BASE_URI);
@@ -66,8 +66,36 @@ namespace MVCClient.Helper
             //client.BaseAddress = new Uri(API_BASE_URI);
             //client.SetBearerToken(r.AccessToken);
 
-            HttpClient client = GetHtttpClient();
+            HttpClient client = GetHtttpClientClientCredentialFlow();
             var result = client.GetAsync("/api/values").Result;
+        }
+
+
+        public HttpClient GetClientAuthorizationCodeFlow()
+        {
+            HttpClient client = new HttpClient();
+
+            if (HttpContext.Current.Request.Cookies["AuthAuthorizationCode"] == null)
+            {
+                //Trigger Authorization Code flow here.
+
+                AuthorizeRequest authorizeRequest = new AuthorizeRequest("https://mycorpidentityserverapp.azurewebsites.net/identity/connect/authorize");
+                var state = "https://mvcclientdemo.azurewebsites.net/Home/Index";
+                var url = authorizeRequest.CreateAuthorizeUrl("mymvcclient_authrorization_code", "code", "testscope", "http://mvcclientdemo.azurewebsites.net/home/callback", state);
+                HttpContext.Current.Response.Redirect(url);
+
+                var r = HttpContext.Current.Request.Path;
+            }
+
+            return client;
+        }
+
+        public void TestWithAuthorizationCode()
+        {
+            //Request access token authorization code.
+            HttpClient client = GetClientAuthorizationCodeFlow();
+
+          
         }
     }
 }
