@@ -54,6 +54,10 @@ namespace MVCClient.Controllers
                 "mymvcclient_authrorization_code", Constants.MyCorpMvcAppSecret);
             var result = token.RequestAuthorizationCodeAsync(code, "http://mvcclientdemo.azurewebsites.net/home/callback").Result;
 
+            //HttpContext
+            HttpCookie cookie = new HttpCookie("AuthAuthorizationCodeAccessKey", result.AccessToken);
+            Response.Cookies.Add(cookie);
+
             return Redirect(state);
         }
     }

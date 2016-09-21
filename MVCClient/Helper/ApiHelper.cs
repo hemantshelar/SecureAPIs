@@ -75,7 +75,7 @@ namespace MVCClient.Helper
         {
             HttpClient client = new HttpClient();
 
-            if (HttpContext.Current.Request.Cookies["AuthAuthorizationCode"] == null)
+            if (HttpContext.Current.Request.Cookies["AuthAuthorizationCodeAccessKey"] == null)
             {
                 //Trigger Authorization Code flow here.
 
@@ -86,7 +86,15 @@ namespace MVCClient.Helper
 
                 var r = HttpContext.Current.Request.Path;
             }
+            else
+            {
+                client.BaseAddress = new Uri(API_BASE_URI);
+                var accessTokenCookie = HttpContext.Current.Request.Cookies["AuthAuthorizationCodeAccessKey"];
+                var accessToken = accessTokenCookie.Value as string;
+                client.SetBearerToken(accessToken);                
+            }
 
+            
             return client;
         }
 
@@ -94,8 +102,9 @@ namespace MVCClient.Helper
         {
             //Request access token authorization code.
             HttpClient client = GetClientAuthorizationCodeFlow();
+            var result = client.GetAsync("/api/values").Result;
 
-          
+            var jsonResult = result.Content.ReadAsStringAsync().Result;
         }
     }
 }
